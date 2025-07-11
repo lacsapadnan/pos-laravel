@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
@@ -116,6 +117,12 @@ Route::prefix('role')->group(function () {
     Route::middleware('permission:role.view')->get('/', [RoleController::class, 'index'])->name('role.index');
     Route::middleware('permission:role.update')->get('/{role}/edit', [RoleController::class, 'edit'])->name('role.edit');
     Route::middleware('permission:role.update')->put('/{role}', [RoleController::class, 'update'])->name('role.update');
+});
+
+// Settings routes
+Route::middleware(['auth'])->prefix('pengaturan')->group(function () {
+    Route::get('/', [SettingController::class, 'index'])->name('settings.index');
+    Route::put('/', [SettingController::class, 'update'])->name('settings.update');
 });
 
 require __DIR__ . '/auth.php';
