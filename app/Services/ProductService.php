@@ -7,6 +7,7 @@ use App\Repositories\Interface\CategoryRepositoryInterface;
 use App\Repositories\Interface\ProductRepositoryInterface;
 use App\Repositories\Interface\UnitRepositoryInterface;
 use App\Services\Interface\ProductServiceInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class ProductService implements ProductServiceInterface
 {
@@ -30,6 +31,11 @@ final class ProductService implements ProductServiceInterface
     public function getAllProducts(): \Illuminate\Support\Collection
     {
         return $this->productRepository->all();
+    }
+
+    public function getAllProductsPaginated(int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->productRepository->getAllPaginated($perPage);
     }
 
     public function getAllProductsWithRelations(): \Illuminate\Support\Collection

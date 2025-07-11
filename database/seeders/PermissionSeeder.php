@@ -64,6 +64,15 @@ class PermissionSeeder extends Seeder
             'user.edit',
             'user.update',
             'user.delete',
+            // Sales permissions
+            'sales.view',
+            'sales.create',
+            'sales.process',
+            'sales.history',
+            'sales.cancel',
+            // Settings permissions
+            'setting.view',
+            'setting.update',
         ];
 
         foreach ($permissions as $permission) {

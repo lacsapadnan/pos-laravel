@@ -8,6 +8,7 @@ use App\Repositories\Interface\CategoryRepositoryInterface;
 use App\Repositories\Interface\CustomerRepositoryInterface;
 use App\Repositories\Interface\ProductRepositoryInterface;
 use App\Repositories\Interface\RoleRepositoryInterface;
+use App\Repositories\Interface\SalesRepositoryInterface;
 use App\Repositories\Interface\SettingRepositoryInterface;
 use App\Repositories\Interface\StockMovementRepositoryInterface;
 use App\Repositories\Interface\StockOpnameRepositoryInterface;
@@ -16,6 +17,7 @@ use App\Repositories\Interface\UnitRepositoryInterface;
 use App\Repositories\Interface\UserRepositoryInterface;
 use App\Repositories\ProductRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\SalesRepository;
 use App\Repositories\SettingRepository;
 use App\Repositories\StockMovementRepository;
 use App\Repositories\StockOpnameRepository;
@@ -29,6 +31,7 @@ use App\Services\Interface\CustomerServiceInterface;
 use App\Services\Interface\ProductServiceInterface;
 use App\Services\Interface\RoleServiceInterface;
 use App\Services\Interface\NotificationServiceInterface;
+use App\Services\Interface\SalesServiceInterface;
 use App\Services\Interface\SettingServiceInterface;
 use App\Services\Interface\StockOpnameServiceInterface;
 use App\Services\Interface\StockServiceInterface;
@@ -38,6 +41,7 @@ use App\Services\Interface\UserServiceInterface;
 use App\Services\NotificationService;
 use App\Services\ProductService;
 use App\Services\RoleService;
+use App\Services\SalesService;
 use App\Services\SettingService;
 use App\Services\StockOpnameService;
 use App\Services\StockService;
@@ -74,6 +78,8 @@ class AppServiceProvider extends ServiceProvider
             StockServiceInterface::class => StockService::class,
             StockOpnameServiceInterface::class => StockOpnameService::class,
             NotificationServiceInterface::class => NotificationService::class,
+            SalesServiceInterface::class => SalesService::class,
+            SalesRepositoryInterface::class => SalesRepository::class,
             SettingServiceInterface::class => SettingService::class,
             SettingRepositoryInterface::class => SettingRepository::class,
             UserServiceInterface::class => UserService::class,

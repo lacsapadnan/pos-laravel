@@ -4,8 +4,9 @@ namespace App\Services;
 
 use App\Models\Customer;
 use App\Repositories\Interface\CustomerRepositoryInterface;
+use App\Services\Interface\CustomerServiceInterface;
 
-final class CustomerService
+final class CustomerService implements CustomerServiceInterface
 {
     protected CustomerRepositoryInterface $customerRepository;
 

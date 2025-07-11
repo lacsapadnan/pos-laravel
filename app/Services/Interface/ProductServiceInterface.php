@@ -3,6 +3,7 @@
 namespace App\Services\Interface;
 
 use App\Models\Product;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ProductServiceInterface
 {
@@ -14,4 +15,5 @@ interface ProductServiceInterface
     public function getAllProductsWithRelations(): \Illuminate\Support\Collection;
     public function getAllCategories(): \Illuminate\Support\Collection;
     public function getAllUnits(): \Illuminate\Support\Collection;
+    public function getAllProductsPaginated(int $perPage = 15): LengthAwarePaginator;
 }

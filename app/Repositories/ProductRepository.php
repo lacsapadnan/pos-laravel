@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use App\Repositories\Interface\ProductRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class ProductRepository implements ProductRepositoryInterface
 {
@@ -15,6 +16,11 @@ final class ProductRepository implements ProductRepositoryInterface
     public function getAllWithRelations(): \Illuminate\Support\Collection
     {
         return Product::with(['category', 'unit'])->get();
+    }
+
+    public function getAllPaginated(int $perPage = 15): LengthAwarePaginator
+    {
+        return Product::with(['category', 'unit'])->paginate($perPage);
     }
 
     public function findById(int $id): Product
