@@ -5,69 +5,117 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Test notification route
+Route::get('/test-notifications', function () {
+    $notificationService = app(\App\Services\Interface\NotificationServiceInterface::class);
+    $notifications = $notificationService->getLowStockNotifications();
+
+    return response()->json([
+        'total_notifications' => $notifications->count(),
+        'unread_count' => $notificationService->getNotificationCount(),
+        'notifications' => $notifications->toArray()
+    ]);
+})->middleware('auth')->name('test.notifications');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Role & Permission
-    Route::middleware('permission:role.view')->get('/roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::middleware('permission:role.view')->get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::middleware('permission:role.update')->put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
-
-    Route::prefix('kategori')->group(function () {
-        Route::middleware('permission:category.view')->get('/', [CategoryController::class, 'index'])->name('category.index');
-        Route::middleware('permission:category.store')->post('/', [CategoryController::class, 'store'])->name('category.store');
-        Route::middleware('permission:category.update')->put('/{category}', [CategoryController::class, 'update'])->name('category.update');
-        Route::middleware('permission:category.delete')->delete('/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+    // Notification routes
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::post('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+        Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
+        Route::get('/count', [NotificationController::class, 'getCount'])->name('count');
     });
+});
 
-    Route::prefix('supplier')->group(function () {
-        Route::middleware('permission:supplier.view')->get('/', [SupplierController::class, 'index'])->name('supplier.index');
-        Route::middleware('permission:supplier.store')->post('/', [SupplierController::class, 'store'])->name('supplier.store');
-        Route::middleware('permission:supplier.update')->put('/{supplier}', [SupplierController::class, 'update'])->name('supplier.update');
-        Route::middleware('permission:supplier.delete')->delete('/{supplier}', [SupplierController::class, 'destroy'])->name('supplier.destroy');
-    });
+// Categories routes
+Route::middleware(['auth', 'permission:category.view'])->group(function () {
+    Route::get('/kategori', [CategoryController::class, 'index'])->name('category.index');
+    Route::post('/kategori', [CategoryController::class, 'store'])->middleware('permission:category.store')->name('category.store');
+    Route::put('/kategori/{id}', [CategoryController::class, 'update'])->middleware('permission:category.update')->name('category.update');
+    Route::delete('/kategori/{id}', [CategoryController::class, 'destroy'])->middleware('permission:category.delete')->name('category.destroy');
+});
 
-    Route::prefix('konsumen')->group(function () {
-        Route::middleware('permission:customer.view')->get('/', [CustomerController::class, 'index'])->name('customer.index');
-        Route::middleware('permission:customer.store')->post('/', [CustomerController::class, 'store'])->name('customer.store');
-        Route::middleware('permission:customer.update')->put('/{customer}', [CustomerController::class, 'update'])->name('customer.update');
-        Route::middleware('permission:customer.delete')->delete('/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
-    });
+// Suppliers routes
+Route::middleware(['auth', 'permission:supplier.view'])->group(function () {
+    Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
+    Route::post('/supplier', [SupplierController::class, 'store'])->middleware('permission:supplier.store')->name('supplier.store');
+    Route::put('/supplier/{id}', [SupplierController::class, 'update'])->middleware('permission:supplier.update')->name('supplier.update');
+    Route::delete('/supplier/{id}', [SupplierController::class, 'destroy'])->middleware('permission:supplier.delete')->name('supplier.destroy');
+});
 
-    Route::prefix('satuan')->group(function () {
-        Route::middleware('permission:unit.view')->get('/', [UnitController::class, 'index'])->name('unit.index');
-        Route::middleware('permission:unit.store')->post('/', [UnitController::class, 'store'])->name('unit.store');
-        Route::middleware('permission:unit.update')->put('/{unit}', [UnitController::class, 'update'])->name('unit.update');
-        Route::middleware('permission:unit.delete')->delete('/{unit}', [UnitController::class, 'destroy'])->name('unit.destroy');
-    });
+// Units routes
+Route::middleware(['auth', 'permission:unit.view'])->group(function () {
+    Route::get('/satuan', [UnitController::class, 'index'])->name('unit.index');
+    Route::post('/satuan', [UnitController::class, 'store'])->middleware('permission:unit.store')->name('unit.store');
+    Route::put('/satuan/{id}', [UnitController::class, 'update'])->middleware('permission:unit.update')->name('unit.update');
+    Route::delete('/satuan/{id}', [UnitController::class, 'destroy'])->middleware('permission:unit.delete')->name('unit.destroy');
+});
 
-    Route::prefix('produk')->group(function () {
-        Route::middleware('permission:product.view')->get('/', [ProductController::class, 'index'])->name('product.index');
-        Route::middleware('permission:product.create')->get('/create', [ProductController::class, 'create'])->name('product.create');
-        Route::middleware('permission:product.store')->post('/', [ProductController::class, 'store'])->name('product.store');
-        Route::middleware('permission:product.view')->get('/{product}', [ProductController::class, 'show'])->name('product.show');
-        Route::middleware('permission:product.update')->get('/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
-        Route::middleware('permission:product.update')->put('/{product}', [ProductController::class, 'update'])->name('product.update');
-        Route::middleware('permission:product.delete')->delete('/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
-    });
+Route::prefix('konsumen')->group(function () {
+    Route::middleware('permission:customer.view')->get('/', [CustomerController::class, 'index'])->name('customer.index');
+    Route::middleware('permission:customer.store')->post('/', [CustomerController::class, 'store'])->name('customer.store');
+    Route::middleware('permission:customer.update')->put('/{customer}', [CustomerController::class, 'update'])->name('customer.update');
+    Route::middleware('permission:customer.delete')->delete('/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+});
 
-    Route::prefix('user')->group(function () {
-        Route::middleware('permission:user.view')->get('/', [UserController::class, 'index'])->name('user.index');
-        Route::middleware('permission:user.store')->post('/', [UserController::class, 'store'])->name('user.store');
-        Route::middleware('permission:user.update')->put('/{user}', [UserController::class, 'update'])->name('user.update');
-        Route::middleware('permission:user.delete')->delete('/{user}', [UserController::class, 'destroy'])->name('user.destroy');
-    });
+// Products routes
+Route::middleware(['auth', 'permission:product.view'])->group(function () {
+    Route::get('/produk', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/produk/create', [ProductController::class, 'create'])->middleware('permission:product.create')->name('product.create');
+    Route::post('/produk', [ProductController::class, 'store'])->middleware('permission:product.store')->name('product.store');
+    Route::get('/produk/{id}', [ProductController::class, 'show'])->name('product.show');
+    Route::get('/produk/{id}/edit', [ProductController::class, 'edit'])->middleware('permission:product.edit')->name('product.edit');
+    Route::put('/produk/{id}', [ProductController::class, 'update'])->middleware('permission:product.update')->name('product.update');
+    Route::delete('/produk/{id}', [ProductController::class, 'destroy'])->middleware('permission:product.delete')->name('product.destroy');
+});
+
+// Stock Management routes
+Route::middleware(['auth', 'permission:stock.view'])->prefix('stok')->group(function () {
+    Route::get('/', [StockController::class, 'index'])->name('stock.index');
+    Route::get('/riwayat', [StockController::class, 'movements'])->name('stock.movements');
+
+    // Stock In
+    Route::get('/masuk', [StockController::class, 'stockInForm'])->middleware('permission:stock.in')->name('stock.in.form');
+    Route::post('/masuk', [StockController::class, 'stockIn'])->middleware('permission:stock.in')->name('stock.in');
+
+    // Stock Out
+    Route::get('/keluar', [StockController::class, 'stockOutForm'])->middleware('permission:stock.out')->name('stock.out.form');
+    Route::post('/keluar', [StockController::class, 'stockOut'])->middleware('permission:stock.out')->name('stock.out');
+
+    // Stock Adjustment
+    Route::get('/penyesuaian', [StockController::class, 'adjustmentForm'])->middleware('permission:stock.adjustment')->name('stock.adjustment.form');
+    Route::post('/penyesuaian', [StockController::class, 'adjustment'])->middleware('permission:stock.adjustment')->name('stock.adjustment');
+});
+
+Route::prefix('user')->group(function () {
+    Route::middleware('permission:user.view')->get('/', [UserController::class, 'index'])->name('user.index');
+    Route::middleware('permission:user.store')->post('/', [UserController::class, 'store'])->name('user.store');
+    Route::middleware('permission:user.update')->put('/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::middleware('permission:user.delete')->delete('/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+});
+
+Route::prefix('role')->group(function () {
+    Route::middleware('permission:role.view')->get('/', [RoleController::class, 'index'])->name('role.index');
+    Route::middleware('permission:role.update')->get('/{role}/edit', [RoleController::class, 'edit'])->name('role.edit');
+    Route::middleware('permission:role.update')->put('/{role}', [RoleController::class, 'update'])->name('role.update');
 });
 
 require __DIR__ . '/auth.php';

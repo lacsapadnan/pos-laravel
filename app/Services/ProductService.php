@@ -6,8 +6,9 @@ use App\Models\Product;
 use App\Repositories\Interface\CategoryRepositoryInterface;
 use App\Repositories\Interface\ProductRepositoryInterface;
 use App\Repositories\Interface\UnitRepositoryInterface;
+use App\Services\Interface\ProductServiceInterface;
 
-final class ProductService
+final class ProductService implements ProductServiceInterface
 {
     protected ProductRepositoryInterface $productRepository;
     protected CategoryRepositoryInterface $categoryRepository;

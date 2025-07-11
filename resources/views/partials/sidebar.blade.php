@@ -31,8 +31,29 @@
                         <span class="nav-link-title"> Dashboard </span>
                     </a>
                 </li>
+                @can('stock.view')
+                <li class="nav-item {{ request()->is('stok*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('stock.index') }}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-1">
+                                <path d="M3 3h18v18H3z"></path>
+                                <path d="M9 9h6v6H9z"></path>
+                                <path d="M3 9h6"></path>
+                                <path d="M15 9h6"></path>
+                                <path d="M9 3v6"></path>
+                                <path d="M9 15v6"></path>
+                                <path d="M15 3v6"></path>
+                                <path d="M15 15v6"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title"> Manajemen Stok </span>
+                    </a>
+                </li>
+                @endcan
                 <li
-                    class="nav-item dropdown {{ request()->is('roles*') || request()->is('kategori*') || request()->is('supplier*') || request()->is('konsumen*') || request()->is('satuan*') || request()->is('produk*') || request()->is('user*') ? 'active' : '' }}">
+                    class="nav-item dropdown {{ request()->is('role*') || request()->is('kategori*') || request()->is('supplier*') || request()->is('konsumen*') || request()->is('satuan*') || request()->is('produk*') || request()->is('user*') ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -48,7 +69,7 @@
                         <span class="nav-link-title"> Master Data </span>
                     </a>
                     <div
-                        class="dropdown-menu {{ request()->is('roles*') || request()->is('kategori*') || request()->is('supplier*') || request()->is('konsumen*') || request()->is('satuan*') || request()->is('produk*') || request()->is('user*') ? 'show' : '' }}">
+                        class="dropdown-menu {{ request()->is('role*') || request()->is('kategori*') || request()->is('supplier*') || request()->is('konsumen*') || request()->is('satuan*') || request()->is('produk*') || request()->is('user*') ? 'show' : '' }}">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 @can('category.view')
@@ -76,8 +97,8 @@
                                     href="{{ route('supplier.index') }}"> Supplier </a>
                                 @endcan
                                 @can('role.view')
-                                <a class="dropdown-item {{ request()->is('roles*') ? 'active' : '' }}"
-                                    href="{{ route('roles.index') }}"> Hak Akses </a>
+                                <a class="dropdown-item {{ request()->is('role*') ? 'active' : '' }}"
+                                    href="{{ route('role.index') }}"> Hak Akses </a>
                                 @endcan
                             </div>
                         </div>
