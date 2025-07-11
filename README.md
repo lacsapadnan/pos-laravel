@@ -23,6 +23,12 @@ POS web application dengan Laravel + Autentikasi + Role-based Access (Admin & Ka
     -   Stock Opname
     -   Stock Movement History
 -   Notifikasi
+-   Pengaturan Website:
+    -   Nama Website
+    -   Alamat
+    -   Email
+    -   Nomor Telepon
+    -   Logo (dengan preview)
 
 ---
 
@@ -120,7 +126,6 @@ Seeder akan otomatis:
 
 ## 🛠️ TODO Selanjutnya
 
--   [ ] Pengaturan Website
 -   [ ] Transaksi Pembelian (Supplier)
 -   [ ] Laporan Pembelian (Supplier)
 -   [ ] Transaksi Penjualan
