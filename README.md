@@ -140,8 +140,9 @@ Seeder akan otomatis:
 
 -   [ ] Transaksi Pembelian (Supplier)
 -   [ ] Laporan Pembelian (Supplier)
--   [x] Transaksi Penjualan
--   [x] Laporan Penjualan
+-   [ ] Laporan Penjualan
+-   [ ] Laporan Stok
+-   [ ] Laporan Pembelian
 
 ---
 
