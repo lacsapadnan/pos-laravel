@@ -3,9 +3,9 @@
 @section('title', 'Riwayat Pergerakan Stok')
 
 @section('content')
-<div class="container-fluid px-4">
+<div class="px-4 container-fluid">
     <h1 class="mt-4 fw-bold">Riwayat Pergerakan Stok</h1>
-    <ol class="breadcrumb mb-4">
+    <ol class="mb-4 breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('stock.index') }}">Manajemen Stok</a></li>
         <li class="breadcrumb-item active">Riwayat Pergerakan</li>
@@ -15,8 +15,8 @@
 
     <div class="card">
         <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="fw-bold mb-0">Riwayat Pergerakan Stok</h5>
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <h5 class="mb-0 fw-bold">Riwayat Pergerakan Stok</h5>
                 <a href="{{ route('stock.index') }}" class="btn btn-outline-primary btn-sm">
                     <i class="fas fa-arrow-left me-2"></i>Kembali ke Dashboard
                 </a>
@@ -25,7 +25,7 @@
         <div class="card-body">
             @if($movements->count() > 0)
             <!-- Filter Section -->
-            <div class="row mb-4">
+            <div class="mb-4 row">
                 <div class="col-md-3">
                     <label for="filter-type" class="form-label">Filter Tipe:</label>
                     <select class="form-select" id="filter-type">
@@ -49,6 +49,41 @@
                     <input type="date" class="form-control" id="filter-date-to">
                 </div>
             </div>
+            <!-- Summary Cards -->
+            <div class="my-4 row">
+                <div class="col-md-3">
+                    <div class="text-white card bg-success">
+                        <div class="text-center card-body">
+                            <h6 class="card-title">Total Stok Masuk</h6>
+                            <h4 id="total-in">{{ $movements->where('type', 'in')->count() }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-white card bg-danger">
+                        <div class="text-center card-body">
+                            <h6 class="card-title">Total Stok Keluar</h6>
+                            <h4 id="total-out">{{ $movements->where('type', 'out')->count() }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-white card bg-warning">
+                        <div class="text-center card-body">
+                            <h6 class="card-title">Total Penyesuaian</h6>
+                            <h4 id="total-adjustment">{{ $movements->where('type', 'adjustment')->count() }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-white card bg-info">
+                        <div class="text-center card-body">
+                            <h6 class="card-title">Total Pergerakan</h6>
+                            <h4 id="total-movements">{{ $movements->count() }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="table-responsive">
                 <table class="table table-striped" id="movementsTable">
@@ -60,8 +95,6 @@
                             <th>Jumlah</th>
                             <th>Stok Sebelum</th>
                             <th>Stok Sesudah</th>
-                            <th>Harga Satuan</th>
-                            <th>Total Nilai</th>
                             <th>Referensi</th>
                             <th>User</th>
                             <th>Catatan</th>
@@ -96,8 +129,6 @@
                             </td>
                             <td>{{ number_format($movement->previous_stock) }}</td>
                             <td class="fw-bold">{{ number_format($movement->current_stock) }}</td>
-                            <td>{{ $movement->formatted_unit_cost }}</td>
-                            <td>{{ $movement->formatted_total_cost }}</td>
                             <td>
                                 <small class="text-muted">{{ $movement->reference_display }}</small>
                             </td>
@@ -116,49 +147,13 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Summary Cards -->
-            <div class="row mt-4">
-                <div class="col-md-3">
-                    <div class="card bg-success text-white">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">Total Stok Masuk</h6>
-                            <h4 id="total-in">{{ $movements->where('type', 'in')->count() }}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-danger text-white">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">Total Stok Keluar</h6>
-                            <h4 id="total-out">{{ $movements->where('type', 'out')->count() }}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-warning text-white">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">Total Penyesuaian</h6>
-                            <h4 id="total-adjustment">{{ $movements->where('type', 'adjustment')->count() }}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-info text-white">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">Total Pergerakan</h6>
-                            <h4 id="total-movements">{{ $movements->count() }}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
             @else
-            <div class="text-center py-5">
-                <i class="fas fa-inbox fa-4x text-muted mb-4"></i>
+            <div class="py-5 text-center">
+                <i class="mb-4 fas fa-inbox fa-4x text-muted"></i>
                 <h5 class="text-muted">Belum Ada Pergerakan Stok</h5>
-                <p class="text-muted mb-4">Mulai dengan menambahkan stok masuk atau keluar untuk melihat riwayat
+                <p class="mb-4 text-muted">Mulai dengan menambahkan stok masuk atau keluar untuk melihat riwayat
                     pergerakan.</p>
-                <div class="d-flex justify-content-center gap-2">
+                <div class="gap-2 d-flex justify-content-center">
                     @can('stock.in')
                     <a href="{{ route('stock.in.form') }}" class="btn btn-success">
                         <i class="fas fa-plus-circle me-2"></i>Stok Masuk
@@ -177,44 +172,56 @@
 </div>
 @endsection
 
-@push('scripts')
+@push('addon-script')
 <script>
     $(document).ready(function() {
     @if($movements->count() > 0)
     // Initialize DataTable
     const table = $('#movementsTable').DataTable({
         responsive: true,
-        pageLength: 25,
-        order: [[0, 'desc']], // Sort by date descending
+        pageLength: 10,
         columnDefs: [
-            { orderable: false, targets: [10] } // Disable sorting for notes column
+            { orderable: false, targets: [8] } // Disable sorting for notes column
         ],
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         language: {
             search: "Cari:",
-            lengthMenu: "Tampilkan _MENU_ data per halaman",
-            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-            infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
-            infoFiltered: "(difilter dari _MAX_ total data)",
-            paginate: {
-                first: "Pertama",
-                last: "Terakhir",
-                next: "Selanjutnya",
-                previous: "Sebelumnya"
-            },
-            emptyTable: "Tidak ada data yang tersedia"
-        }
+            emptyTable: "Tidak ada data yang tersedia",
+            processing: "Sedang memproses..."
+        },
+        processing: true
     });
 
-    // Custom filters
-    $('#filter-type').on('change', function() {
-        table.column(2).search(this.value).draw();
+    // Custom search function
+    function customSearch() {
+        table.draw();
+        updateSummaryCards();
+    }
+
+    // Type filter mapping
+    const typeMap = {
+        '': '',
+        'in': 'Masuk',
+        'out': 'Keluar',
+        'adjustment': 'Penyesuaian',
+        'opname': 'Stock Opname'
+    };
+
+    $('#filter-type').off('change').on('change', function() {
+        const searchTerm = typeMap[$(this).val()];
+        table.column(2).search(searchTerm, true, false).draw();
+        updateSummaryCards();
     });
 
+    // Product filter
     $('#filter-product').on('keyup', function() {
         table.column(1).search(this.value).draw();
+        updateSummaryCards();
     });
 
-    // Date range filter
+    // Date range filter with robust date extraction
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
             const dateFrom = $('#filter-date-from').val();
@@ -222,27 +229,73 @@
 
             if (!dateFrom && !dateTo) return true;
 
-            const dateStr = data[0]; // Date column
-            const date = new Date(dateStr.split('/').reverse().join('-'));
+            // Extract only the date part (dd/mm/yyyy) from the first column, ignoring the time
+            const match = data[0].match(/(\d{2}\/\d{2}\/\d{4})/);
+            if (!match) return true;
+            const dateStr = match[1];
+            const dateParts = dateStr.split('/');
+            if (dateParts.length !== 3) return true;
 
-            const from = dateFrom ? new Date(dateFrom) : null;
-            const to = dateTo ? new Date(dateTo) : null;
+            // Convert table date to yyyymmdd number
+            const rowDateNum = parseInt(dateParts[2] + dateParts[1].padStart(2, '0') + dateParts[0].padStart(2, '0'));
+            const fromNum = dateFrom ? parseInt(dateFrom.replace(/-/g, '')) : null;
+            const toNum = dateTo ? parseInt(dateTo.replace(/-/g, '')) : null;
 
-            if (from && to) {
-                return date >= from && date <= to;
-            } else if (from) {
-                return date >= from;
-            } else if (to) {
-                return date <= to;
+            if (fromNum && toNum) {
+                return rowDateNum >= fromNum && rowDateNum <= toNum;
+            } else if (fromNum) {
+                return rowDateNum >= fromNum;
+            } else if (toNum) {
+                return rowDateNum <= toNum;
             }
 
             return true;
         }
     );
 
+    // Update summary cards
+    function updateSummaryCards() {
+        const visibleRows = table.rows({ search: 'applied' }).nodes();
+        let totalIn = 0;
+        let totalOut = 0;
+        let totalAdjustment = 0;
+
+        $(visibleRows).each(function() {
+            const type = $(this).find('td:eq(2) span.badge').text().trim().toLowerCase();
+            if (type.includes('masuk')) totalIn++;
+            else if (type.includes('keluar')) totalOut++;
+            else if (type.includes('penyesuaian')) totalAdjustment++;
+        });
+
+        $('#total-in').text(totalIn);
+        $('#total-out').text(totalOut);
+        $('#total-adjustment').text(totalAdjustment);
+        $('#total-movements').text(visibleRows.length);
+    }
+
+    // Bind filter events
     $('#filter-date-from, #filter-date-to').on('change', function() {
-        table.draw();
+        customSearch();
     });
+
+    // Use event delegation for dynamically added clear-filters button
+    $(document).on('click', '.clear-filters', function() {
+        $('#filter-type').val('');
+        $('#filter-product').val('');
+        $('#filter-date-from').val('');
+        $('#filter-date-to').val('');
+        table.search('').columns().search('').draw();
+        updateSummaryCards();
+    });
+
+    // Initial cards update
+    updateSummaryCards();
+
+    // Add clear filters button
+    $('.card-header .d-flex').append(
+        '<button class="btn btn-outline-secondary btn-sm clear-filters ms-2">' +
+        '<i class="fas fa-times me-1"></i>Reset Filter</button>'
+    );
     @endif
 });
 </script>
