@@ -13,7 +13,34 @@ POS web application dengan Laravel + Autentikasi + Role-based Access (Admin & Ka
 -   CRUD Kategori
 -   CRUD Supplier
 -   CRUD Konsumen
+-   CRUD Satuan
+-   CRUD Produk
 -   CRUD User
+-   Manajemen Stok:
+    -   Stock In
+    -   Stock Out
+    -   Stock Adjustment
+    -   Stock Opname
+    -   Stock Movement History
+-   Notifikasi
+-   Pengaturan Website:
+    -   Nama Website
+    -   Alamat
+    -   Email
+    -   Nomor Telepon
+    -   Logo (dengan preview)
+-   Transaksi Penjualan:
+    -   Point of Sale (POS)
+    -   Manajemen Keranjang
+    -   Proses Checkout
+    -   Cetak Struk
+    -   Riwayat Penjualan
+    -   Pembatalan Transaksi
+-   Dashboard:
+    -   Total Produk
+    -   Total Pelanggan
+    -   Pendapatan Harian
+    -   Grafik Penjualan Bulanan
 
 ---
 
@@ -111,15 +138,10 @@ Seeder akan otomatis:
 
 ## 🛠️ TODO Selanjutnya
 
--   [ ] Pengaturan Website
--   [ ] Manajemen Satuan
--   [ ] Manajemen Produk
--   [x] Manajemen Konsumen
--   [ ] Manajemen Stok
 -   [ ] Transaksi Pembelian (Supplier)
 -   [ ] Laporan Pembelian (Supplier)
--   [ ] Transaksi Penjualan
--   [ ] Laporan Penjualan
+-   [x] Transaksi Penjualan
+-   [x] Laporan Penjualan
 
 ---
 

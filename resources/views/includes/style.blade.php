@@ -28,4 +28,8 @@
     table.dataTable td.dt-type-date {
         text-align: left;
     }
+
+    .badge {
+        color: #fff;
+    }
 </style>
