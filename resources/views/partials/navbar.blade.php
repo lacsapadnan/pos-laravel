@@ -68,18 +68,18 @@
                                 </div>
                                 @endforeach
                                 @if($notifications->count() > 5)
-                                <div class="list-group-item text-center">
+                                <div class="text-center list-group-item">
                                     <a href="{{ route('stock.index') }}" class="text-muted">
                                         Lihat {{ $notifications->count() - 5 }} notifikasi lainnya...
                                     </a>
                                 </div>
                                 @endif
                                 @else
-                                <div class="list-group-item text-center py-4">
+                                <div class="py-4 text-center list-group-item">
                                     <div class="text-muted">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="icon mb-2">
+                                            stroke-linecap="round" stroke-linejoin="round" class="mb-2 icon">
                                             <path d="M20 6L9 17l-5-5"></path>
                                         </svg>
                                         <div>Tidak ada notifikasi stok rendah</div>
@@ -119,7 +119,13 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <a href="#" class="dropdown-item">Settings</a>
-                    <a href="#" class="dropdown-item">Logout</a>
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <a href="#" class="dropdown-item"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            Logout
+                        </a>
+                    </form>
                 </div>
             </div>
         </div>
