@@ -15,22 +15,10 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return auth()->check() ? redirect()->route('dashboard') : view('auth.login');
 });
 
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-
-// Test notification route
-Route::get('/test-notifications', function () {
-    $notificationService = app(\App\Services\Interface\NotificationServiceInterface::class);
-    $notifications = $notificationService->getLowStockNotifications();
-
-    return response()->json([
-        'total_notifications' => $notifications->count(),
-        'unread_count' => $notificationService->getNotificationCount(),
-        'notifications' => $notifications->toArray()
-    ]);
-})->middleware('auth')->name('test.notifications');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
