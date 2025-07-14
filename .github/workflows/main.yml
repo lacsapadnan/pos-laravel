@@ -1,0 +1,22 @@
+name: Deploy to cPanel via SSH
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run SSH commands
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: pos.pixeloverture.net
+          username: astacom
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd pos
+            git pull origin master
+            /opt/cpanel/ea-php81/root/usr/bin/php artisan config:cache
