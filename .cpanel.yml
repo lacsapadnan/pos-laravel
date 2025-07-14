@@ -1,0 +1,31 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/astacom/pos
+
+    # Copy repo content ke folder project (tidak selalu diperlukan kalau Git langsung clone ke folder itu)
+    # - /bin/cp -R * $DEPLOYPATH
+
+    # Pindah ke direktori project
+    - cd $DEPLOYPATH
+
+    # Jalankan composer install (gunakan full path PHP jika perlu)
+    - /opt/cpanel/ea-php82/root/usr/bin/php composer.phar install --no-dev --optimize-autoloader
+
+    # Laravel specific optimizations
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan config:clear
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan cache:clear
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan view:clear
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan route:clear
+
+    # Optimize Laravel performance
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan config:cache
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan route:cache
+
+    # Set proper permissions
+    - chmod -R 755 $DEPLOYPATH
+    - chmod -R 777 $DEPLOYPATH/storage
+    - chmod -R 777 $DEPLOYPATH/bootstrap/cache
+
+    # Optional: Run database migrations (uncomment if needed)
+    # - /opt/cpanel/ea-php82/root/usr/bin/php artisan migrate --force
