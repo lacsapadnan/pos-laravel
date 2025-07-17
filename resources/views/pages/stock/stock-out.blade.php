@@ -3,9 +3,9 @@
 @section('title', 'Stok Keluar')
 
 @section('content')
-<div class="container-fluid px-4">
+<div class="px-4 container-fluid">
     <h1 class="mt-4 fw-bold">Stok Keluar</h1>
-    <ol class="breadcrumb mb-4">
+    <ol class="mb-4 breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('stock.index') }}">Manajemen Stok</a></li>
         <li class="breadcrumb-item active">Stok Keluar</li>
@@ -17,13 +17,13 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="fw-bold mb-0">Form Stok Keluar</h5>
+                    <h5 class="mb-0 fw-bold">Form Stok Keluar</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('stock.out') }}" method="POST">
                         @csrf
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="mb-3 col-md-6">
                                 <label for="product_id" class="form-label fw-bold">Produk</label>
                                 <select class="form-select @error('product_id') is-invalid @enderror" id="product_id"
                                     name="product_id" required>
@@ -40,7 +40,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="mb-3 col-md-6">
                                 <label for="quantity" class="form-label fw-bold">Jumlah</label>
                                 <input type="number" class="form-control @error('quantity') is-invalid @enderror"
                                     id="quantity" name="quantity" value="{{ old('quantity') }}" min="1" required>
@@ -80,16 +80,30 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="fw-bold mb-0">Informasi</h5>
+                    <h5 class="mb-0 fw-bold">Informasi</h5>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-warning">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        <strong>Stok Keluar</strong><br>
-                        Gunakan form ini untuk mencatat pengurangan stok produk. Pastikan stok mencukupi sebelum
-                        melakukan pengurangan.
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <div class="alert-icon">
+                            <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon alert-icon icon-2">
+                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                <path d="M12 8v4"></path>
+                                <path d="M12 16h.01"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="alert-heading">Perhatian:</h4>
+                            <div class="alert-description">
+                                <p>Gunakan form ini untuk mencatat pengurangan stok produk. Pastikan stok mencukupi
+                                    sebelum
+                                    melakukan pengurangan.</p>
+                            </div>
+                            <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                        </div>
                     </div>
-
                     <h6 class="fw-bold">Tips:</h6>
                     <ul class="small">
                         <li>Pastikan produk yang dipilih sudah benar</li>
