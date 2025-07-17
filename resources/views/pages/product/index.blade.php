@@ -8,9 +8,39 @@
 @endcan
 @endsection
 
+@push('addon-style')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    #filter-category {
+        color: #000 !important;
+        display: block !important;
+        width: 100% !important;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="card">
     <div class="card-body">
+        <div class="mb-3 row">
+            <div class="col-md-4">
+                <label for="filter-category" class="form-label">Kategori</label>
+                <select id="filter-category" class="form-select">
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $category)
+                    <option value="{{ $category->name }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="filter-status" class="form-label">Status</label>
+                <select id="filter-status" class="form-select">
+                    <option value="">Semua Status</option>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Tidak Aktif">Tidak Aktif</option>
+                </select>
+            </div>
+        </div>
         <div class="table-responsive">
             <table id="products-table" class="table table-striped">
                 <thead>
@@ -140,15 +170,34 @@
 @endsection
 
 @push('addon-script')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
-            $('#products-table').DataTable({
-                "pageLength": 25,
-                "order": [[ 0, "asc" ]],
-                "columnDefs": [
-                    { "orderable": false, "targets": [1, 9] }
-                ]
-            });
+        // Initialize Select2
+        $('#filter-category').select2({
+            placeholder: "Pilih Kategori",
+            allowClear: true
         });
+
+        var table = $('#products-table').DataTable({
+            "pageLength": 25,
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [
+                { "orderable": false, "targets": [1, 9] }
+            ]
+        });
+
+        // Category filter
+        $('#filter-category').on('change', function() {
+            var val = $(this).val();
+            table.column(4).search(val ? '^' + val + '$' : '', true, false).draw();
+        });
+
+        // Status filter
+        $('#filter-status').on('change', function() {
+            var val = $(this).val();
+            table.column(9).search(val, true, false).draw();
+        });
+    });
 </script>
 @endpush

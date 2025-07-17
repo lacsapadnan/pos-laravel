@@ -25,7 +25,8 @@ final class ProductController extends Controller
     public function index()
     {
         $products = $this->productService->getAllProductsWithRelations();
-        return view('pages.product.index', compact('products'));
+        $categories = $this->productService->getAllCategories();
+        return view('pages.product.index', compact('products', 'categories'));
     }
 
     /**
