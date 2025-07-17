@@ -67,6 +67,18 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Margin Penjualan (%)</label>
+                        <input type="number" class="form-control @error('margin') is-invalid @enderror" name="margin"
+                            value="{{ old('margin', $setting?->margin) }}" min="0" step="0.01" placeholder="Contoh: 20">
+                        @error('margin')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
 
             <div class="mb-3">
                 <label class="form-label">Alamat</label>

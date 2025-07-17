@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="row" id="productGrid">
                     @forelse($products as $product)
-                    <div class="mb-3 col-md-4 col-sm-6 product-item" data-name="{{ strtolower($product->name) }}"
+                    <div class="mb-3 col-md-3 col-sm-6 product-item" data-name="{{ strtolower($product->name) }}"
                         data-sku="{{ strtolower($product->sku ?? '') }}">
                         <div class="card product-card h-100" onclick="addToCart({{ $product->id }})">
                             <div class="text-center card-body">

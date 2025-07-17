@@ -72,7 +72,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label for="price" class="form-label">Harga</label>
                         <div class="input-group">
@@ -85,7 +85,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="capital_price" class="form-label">Harga Modal</label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rp</span>
+                            <input type="number" class="form-control @error('capital_price') is-invalid @enderror"
+                                id="capital_price" name="capital_price" value="{{ old('capital_price') }}" required
+                                placeholder="0" min="0" step="0.01">
+                            @error('price')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label for="stock" class="form-label">Stok</label>
                         <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock"
@@ -95,7 +110,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label for="minimum_stock" class="form-label">Minimum Stok</label>
                         <input type="number" class="form-control @error('minimum_stock') is-invalid @enderror"

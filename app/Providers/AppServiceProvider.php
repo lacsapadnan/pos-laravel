@@ -24,6 +24,8 @@ use App\Repositories\StockOpnameRepository;
 use App\Repositories\SupplierRepository;
 use App\Repositories\UnitRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\Interface\PurchaseRepositoryInterface;
+use App\Repositories\PurchaseRepository;
 use App\Services\CategoryService;
 use App\Services\CustomerService;
 use App\Services\Interface\CategoryServiceInterface;
@@ -48,6 +50,8 @@ use App\Services\StockService;
 use App\Services\SupplierService;
 use App\Services\UnitService;
 use App\Services\UserService;
+use App\Services\Interface\PurchaseServiceInterface;
+use App\Services\PurchaseService;
 use App\View\Composers\NotificationComposer;
 use App\View\Composers\SettingComposer;
 use Illuminate\Support\Facades\View;
@@ -84,6 +88,9 @@ class AppServiceProvider extends ServiceProvider
             SettingRepositoryInterface::class => SettingRepository::class,
             UserServiceInterface::class => UserService::class,
             UserRepositoryInterface::class => UserRepository::class,
+            // Purchase
+            PurchaseServiceInterface::class => PurchaseService::class,
+            PurchaseRepositoryInterface::class => PurchaseRepository::class,
         ];
 
         foreach ($bindings as $interface => $implementation) {

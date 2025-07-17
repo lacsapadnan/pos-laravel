@@ -25,7 +25,8 @@ final class ProductController extends Controller
     public function index()
     {
         $products = $this->productService->getAllProductsWithRelations();
-        return view('pages.product.index', compact('products'));
+        $categories = $this->productService->getAllCategories();
+        return view('pages.product.index', compact('products', 'categories'));
     }
 
     /**
@@ -126,7 +127,7 @@ final class ProductController extends Controller
             }
 
             $this->productService->deleteProduct((int)$id);
-            return redirect()->back()->withSuccess('Data produk berhasil dihapus');
+            return redirect()->route('product.index')->withSuccess('Data produk berhasil dihapus');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors("Gagal menghapus produk: " . $th->getMessage());
         }
