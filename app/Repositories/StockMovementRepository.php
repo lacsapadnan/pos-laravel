@@ -62,7 +62,7 @@ final class StockMovementRepository implements StockMovementRepositoryInterface
     public function getRecentMovements(int $limit = 10): Collection
     {
         return StockMovement::with(['product', 'user'])
-            ->orderBy('movement_date', 'desc')
+            ->orderBy('movement_date', 'asc')
             ->limit($limit)
             ->get();
     }
