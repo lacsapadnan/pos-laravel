@@ -10,7 +10,7 @@ final class StockMovementRepository implements StockMovementRepositoryInterface
 {
     public function all(): Collection
     {
-        return StockMovement::with(['product', 'user'])->orderBy('movement_date', 'desc')->get();
+        return StockMovement::with(['product', 'user'])->orderBy('movement_date', 'asc')->get();
     }
 
     public function findById(int $id): StockMovement
@@ -62,7 +62,7 @@ final class StockMovementRepository implements StockMovementRepositoryInterface
     public function getRecentMovements(int $limit = 10): Collection
     {
         return StockMovement::with(['product', 'user'])
-            ->orderBy('movement_date', 'desc')
+            ->orderBy('movement_date', 'asc')
             ->limit($limit)
             ->get();
     }

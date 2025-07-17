@@ -16,12 +16,19 @@ POS web application dengan Laravel + Autentikasi + Role-based Access (Admin & Ka
 -   CRUD Satuan
 -   CRUD Produk
 -   CRUD User
+-   Transaksi Pembelian (Supplier):
+    -   Input pembelian multi-produk dari supplier
+    -   Kode pembelian otomatis
+    -   Update stok otomatis & tercatat di Manajemen Stok
+    -   Harga modal & harga jual produk otomatis terupdate berdasarkan margin
+    -   Riwayat & detail pembelian
 -   Manajemen Stok:
     -   Stock In
     -   Stock Out
     -   Stock Adjustment
     -   Stock Opname
     -   Stock Movement History
+    -   Pencatatan otomatis dari transaksi pembelian
 -   Notifikasi
 -   Pengaturan Website:
     -   Nama Website
@@ -29,6 +36,7 @@ POS web application dengan Laravel + Autentikasi + Role-based Access (Admin & Ka
     -   Email
     -   Nomor Telepon
     -   Logo (dengan preview)
+    -   Margin Penjualan (%) untuk auto update harga jual produk
 -   Transaksi Penjualan:
     -   Point of Sale (POS)
     -   Manajemen Keranjang
@@ -138,7 +146,6 @@ Seeder akan otomatis:
 
 ## 🛠️ TODO Selanjutnya
 
--   [ ] Transaksi Pembelian (Supplier)
 -   [ ] Laporan Pembelian (Supplier)
 -   [ ] Laporan Penjualan
 -   [ ] Laporan Stok
