@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -18,7 +20,7 @@ Route::get('/', function () {
     return auth()->check() ? redirect()->route('dashboard') : view('auth.login');
 });
 
-Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -126,6 +128,15 @@ Route::middleware(['auth'])->prefix('penjualan')->group(function () {
 
     Route::post('/checkout', [SalesController::class, 'checkout'])->name('sales.checkout');
     Route::get('/ringkasan-hari-ini', [SalesController::class, 'todaySummary'])->name('sales.today');
+});
+
+// Purchase routes
+Route::middleware(['auth', 'permission:purchase.view'])->prefix('pembelian')->group(function () {
+    Route::get('/', [PurchaseController::class, 'index'])->name('purchases.index');
+    Route::get('/create', [PurchaseController::class, 'create'])->middleware('permission:purchase.create')->name('purchases.create');
+    Route::post('/', [PurchaseController::class, 'store'])->middleware('permission:purchase.store')->name('purchases.store');
+    Route::get('/{id}', [PurchaseController::class, 'show'])->middleware('permission:purchase.show')->name('purchases.show');
+    Route::delete('/{id}', [PurchaseController::class, 'destroy'])->middleware('permission:purchase.delete')->name('purchases.destroy');
 });
 
 // Settings routes

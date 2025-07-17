@@ -70,6 +70,13 @@ class PermissionSeeder extends Seeder
             'sales.process',
             'sales.history',
             'sales.cancel',
+            // Purchase permissions
+            'purchase.view',
+            'purchase.create',
+            'purchase.store',
+            'purchase.show',
+            'purchase.update',
+            'purchase.delete',
             // Settings permissions
             'setting.view',
             'setting.update',

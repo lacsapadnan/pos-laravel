@@ -62,6 +62,23 @@
                         </div>
                     </div>
                 </li>
+                @can('purchase.view')
+                <li class="nav-item {{ request()->is('pembelian*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('purchases.index') }}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-1">
+                                <rect x="3" y="7" width="18" height="13" rx="2" />
+                                <path d="M16 3v4" />
+                                <path d="M8 3v4" />
+                                <path d="M3 10h18" />
+                            </svg>
+                        </span>
+                        <span class="nav-link-title"> Pembelian </span>
+                    </a>
+                </li>
+                @endcan
                 @can('stock.view')
                 <li class="nav-item {{ request()->is('stok*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('stock.index') }}">
