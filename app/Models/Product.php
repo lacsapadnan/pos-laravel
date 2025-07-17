@@ -14,14 +14,16 @@ final class Product extends Model
         'category_id',
         'unit_id',
         'price',
+        'capital_price',
         'stock',
         'minimum_stock',
         'image',
-        'status'
+        'status',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'capital_price' => 'decimal:2',
         'status' => 'boolean',
     ];
 
@@ -38,6 +40,11 @@ final class Product extends Model
     public function getFormattedPriceAttribute(): string
     {
         return 'Rp ' . number_format($this->price, 0, ',', '.');
+    }
+
+    public function getFormattedCapitalPriceAttribute(): string
+    {
+        return 'Rp ' . number_format($this->capital_price, 0, ',', '.');
     }
 
     public function getStatusLabelAttribute(): string
