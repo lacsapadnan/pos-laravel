@@ -27,7 +27,7 @@ final class SalesController extends Controller
      */
     public function index(): View
     {
-        $products = $this->productService->getAllProductsPaginated(9);
+        $products = $this->productService->getAllProductsPaginated(12);
         $customers = $this->customerService->getAllCustomers();
         $cartData = $this->salesService->calculateCartTotals();
 
