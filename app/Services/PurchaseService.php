@@ -60,6 +60,7 @@ final class PurchaseService implements PurchaseServiceInterface
                 $product->save();
                 // Catat stok masuk ke StockMovement
                 $previousStock = $product->stock - $item['quantity'];
+                $movementDate = isset($data['date']) ? now()->setDateFrom($data['date']) : now();
                 $this->stockMovementRepository->create([
                     'product_id' => $item['product_id'],
                     'type' => 'in',
@@ -70,9 +71,9 @@ final class PurchaseService implements PurchaseServiceInterface
                     'total_cost' => $item['subtotal'],
                     'reference_type' => 'purchase',
                     'reference_id' => $purchase->id,
-                    'notes' => $data['note'] ?? null,
+                    'notes' => 'Pembelian - ' . $data['code'],
                     'user_id' => Auth::id(),
-                    'movement_date' => $data['date'] ?? now(),
+                    'movement_date' => $movementDate,
                 ]);
             }
             $purchase->update(['total' => $total]);

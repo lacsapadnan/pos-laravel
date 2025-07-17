@@ -10,7 +10,7 @@ final class StockMovementRepository implements StockMovementRepositoryInterface
 {
     public function all(): Collection
     {
-        return StockMovement::with(['product', 'user'])->orderBy('movement_date', 'desc')->get();
+        return StockMovement::with(['product', 'user'])->orderBy('movement_date', 'asc')->get();
     }
 
     public function findById(int $id): StockMovement
